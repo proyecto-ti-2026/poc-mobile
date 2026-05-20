@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856264848170",
+    "project_id": "a-la-mesa-mobile-5ec05",
+    "storage_bucket": "a-la-mesa-mobile-5ec05.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856264848170:android:a7dfbc6344b2434262a453",
+        "android_client_info": {
+          "package_name": "com.alamesa.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKJmKRQQrTmBZ_ocG1tRqroh2_KiPmLpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
