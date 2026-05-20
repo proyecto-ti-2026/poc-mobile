@@ -1,12 +1,39 @@
 import { View, Text, TextInput, TouchableOpacity, Image, ImageBackground, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        clientId: '810288152034-bsspraoe3u7ee4smimgq161n0bd7kisg.apps.googleusercontent.com',
+        androidClientId: '810288152034-ue85dpjhmqvt7nhi5our1gtg5dpot3n7.apps.googleusercontent.com',
+        redirectUri: 'https://auth.expo.io/@xxmakaxx/mobile',
+    });
+
     
+    const fetchUserInfo = async (token) => {
+        const res = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const user = await res.json();
+        console.log('Usuario Google:', user);
+        router.push("/home");
+    };
+
+    useEffect(() => {
+        if (response?.type === 'success') {
+            const { authentication } = response;
+            fetchUserInfo(authentication.accessToken);
+        }
+    }, [response]);
+
     const handleLogin = () => {
         if (email && password) {
             router.push("/home");
@@ -82,7 +109,11 @@ export default function Login() {
             </View>
 
             {/*Botón google*/}
-            <TouchableOpacity style={styles.googleButton}>
+            <TouchableOpacity 
+                style={styles.googleButton}
+                onPress={() => promptAsync()}
+                disabled={!request}
+            >
                 <Text style={styles.googleIcon}>G</Text>
                 <Text style={styles.googleText}>Iniciar sesión con Google</Text>
             </TouchableOpacity>
